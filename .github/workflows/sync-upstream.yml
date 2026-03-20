@@ -11,15 +11,8 @@ jobs:
     steps:
       - name: Sync fork with upstream
         run: |
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+          curl -sf -X POST \
             -H "Authorization: token ${{ secrets.PAT }}" \
             -H "Accept: application/vnd.github+json" \
             -d '{"branch":"master"}' \
-            https://api.github.com/repos/znaniye/nixpkgs/merge-upstream)
-          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | sed '$d')
-          echo "$BODY"
-          if [ "$HTTP_CODE" -ge 400 ]; then
-            echo "HTTP $HTTP_CODE - failed"
-            exit 1
-          fi
+            https://api.github.com/repos/znaniye/nixpkgs/merge-upstream
