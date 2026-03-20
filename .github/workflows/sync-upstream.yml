@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Sync fork with upstream
         run: |
-          curl -sf -X POST \
-            -H "Authorization: token ${{ secrets.PAT }}" \
-            -H "Accept: application/vnd.github+json" \
-            -d '{"branch":"master"}' \
-            https://api.github.com/repos/znaniye/nixpkgs/merge-upstream
+          gh repo sync znaniye/nixpkgs --source NixOS/nixpkgs --branch master --force
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
